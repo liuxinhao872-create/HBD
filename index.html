@@ -1,136 +1,808 @@
-<!DOCTYPE HTML>
-<html>
-<!--
-
-██╗  ██╗ █████╗ ██████╗ ██████╗ ██╗   ██╗                    
-██║  ██║██╔══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝                    
-███████║███████║██████╔╝██████╔╝ ╚████╔╝                     
-██╔══██║██╔══██║██╔═══╝ ██╔═══╝   ╚██╔╝                      
-██║  ██║██║  ██║██║     ██║        ██║                       
-╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝        ╚═╝                       
-                                                             
-██████╗ ██╗██████╗ ████████╗██╗  ██╗██████╗  █████╗ ██╗   ██╗
-██╔══██╗██║██╔══██╗╚══██╔══╝██║  ██║██╔══██╗██╔══██╗╚██╗ ██╔╝
-██████╔╝██║██████╔╝   ██║   ███████║██║  ██║███████║ ╚████╔╝ 
-██╔══██╗██║██╔══██╗   ██║   ██╔══██║██║  ██║██╔══██║  ╚██╔╝  
-██████╔╝██║██║  ██║   ██║   ██║  ██║██████╔╝██║  ██║   ██║   
-╚═════╝ ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝   ╚═╝   
-                                                             
-唐王瑞雪！！！ 
-                                                             
-
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-	<title>祝唐王瑞雪生日快乐！</title>
-	<meta charset="utf-8">
-	<meta name="language" content="zh-CN"/>  
-	<meta http-equiv="Content-Type" content="text/html" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="description" content="祝你生日快乐，每天都开心！">
-	<meta property="og:title" content="祝唐王瑞雪生日快乐！" />
-	<meta property="og:description" content="Happy Birthday!" />
-	
-	<style type="text/css">
-		#copyright{
-			font-family: 'Montserrat',sans-serif;
-			opacity: 0.8;
-		}
-		#copyright a{
-			text-decoration: none;
-		}
-		#copyright a:hover{
-			text-decoration: none;
-			color:#339933;
-		}
-	</style>
-	<link href="css/style.css" type="text/css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-	<link rel="shortcut icon" href="./cake.png" type="image/png" />
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/birthday.js"></script>
-	<script type="text/javascript" src="js/hbd.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拜仁慕尼黑：唐王瑞雪生日特别行动代号</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        /* Custom Bayern Colors & Animations */
+        :root {
+            --bayern-red: #DC052D;
+            --bayern-dark: #000000;
+            --bayern-blue: #0066B2; /* Bavarian Blue */
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #1a1a1a;
+        }
+        .bg-bayern-red { background-color: var(--bayern-red); }
+        .text-bayern-red { color: var(--bayern-red); }
+        .border-bayern-red { border-color: var(--bayern-red); }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(220, 5, 45, 0.15);
+        }
+
+        /* Avatar Styling */
+        .player-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Image Styling */
+        .hero-avatar-container {
+            position: relative;
+            display: inline-block;
+        }
+        .hero-avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid white;
+            box-shadow: 0 0 0 4px #DC052D, 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            animation: float 6s ease-in-out infinite;
+        }
+        .hero-badge {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: #FFD700;
+            color: #DC052D;
+            font-weight: bold;
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 2px solid white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: float 6s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+
+        /* Target File Photo (Small) */
+        .target-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 2px solid #e5e7eb;
+            transform: rotate(-3deg);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Chart Container Styling - Mandatory per instructions */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Max width to prevent stretching */
+            height: 300px;   /* Base height */
+            max-height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* AI Loading Animation */
+        .ai-loading span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #DC052D;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+            margin: 0 2px;
+        }
+        .ai-loading span:nth-child(1) { animation-delay: -0.32s; }
+        .ai-loading span:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            letter-spacing: -0.025em;
+        }
+        
+        /* Interactive Button Pulse */
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(220, 5, 45, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(220, 5, 45, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 5, 45, 0); }
+        }
+        .btn-pulse {
+            animation: pulse-red 2s infinite;
+        }
+    </style>
+    <!-- Chosen Palette: FC Bayern Theme (Primary: #DC052D Red, Secondary: White/Dark Grey/Warm Neutrals) -->
+    <!-- Application Structure Plan: 
+         1. Header: Branding.
+         2. Hero Section: User Photo (a20090c0451fb9bc6abfd64925a2e35e.jpg), personal greeting and CTA.
+         3. Müller's Tactical Lab: The narrative hook (Plans A, B, C) + ✨ AI Custom Plan Generator. Photo also used here as "Target File".
+         4. Squad Wishes (Grid): Filterable cards + ✨ AI Wish Generator Card.
+         5. Celebration Analytics: Charts showing happiness data.
+         6. Footer.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
+<body class="antialiased">
 
-<body>
-	<div id="mainDiv">
-		<div id="content">
-			<div id="code" >
-				<span class="comments">/**</span><br />
-				<span class="space"/><span class="comments">* Today, the 29th day of December, is your birthday.</span><br />
-				<span class="space"/><span class="comments">* So I created a webpage to celebrate this special day.</span><br />
-				<span class="space"/><span class="comments">*/</span><br />
-				Girl friend = <span class="keyword">new</span> Girl(<span class="string">"唐王瑞雪"</span>);<br />
-				
-				<span class="comments">// December 29th, when the bell rang, your age increased </span><br />
-				Date currentTime = <span class="keyword">new</span> Date(); <br />
-				SimpleDateFormat formatter = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);<br />
-				String dateString = formatter.format(currentTime);<br />
-				
-				if( dateString.equals(<span class="string">"2025-12-29 00:00:00"</span>) ){</br>
-					friend.age ++;</br>
-				}</br>
-				
-				<span class="comments">// My friendship will be with you simultaneously.</span><br />
-				<span class="keyword">new</span> Thread (){<br />
-				@Override </br>
-				<span class="comments">// Forever and ever. I wish</span><br />
-				while(true){</br>
-				<span class="comments">// luckiness,</span><br />
-				friend.fortune ++;</br>
-				<span class="comments">// happiness,</span><br />
-				friend.happiness ++;</br>
-				<span class="comments">// and everything you wish can be achieved.</span><br />
-				}.start()</br>
-				<span class="comments">// The last thing I wanna say, boring and ordinary, is:</span><br />
-				System.out.println(<span class="string">"Happy Birthday!"</span>);
-			</div>
-			<div id="loveHeart">
-				<canvas id="garden" style="display:none"></canvas>
-			</div>
-		</div>
-		<div id="copyright">
-			<hr>
-			<p>Made by her friend</p>
-		</hr>
-		</div>
-	</div>
-	<script type="text/javascript">
-		var offsetX = $("#loveHeart").width() / 2;
-		var offsetY = $("#loveHeart").height() / 2 - 55;
-		var together = new Date();
-		
-		// --- 关键修改：相识日期 2023年9月1日 ---
-		// 注意：代码中月份是从0开始的，所以9月要写成 8
-		together.setFullYear(2023, 8, 1); 
-		
-		together.setHours(0);
-		together.setMinutes(0);
-		together.setSeconds(0);
-		together.setMilliseconds(0);
-		
-		if (!document.createElement('canvas').getContext) {
-			var msg = document.createElement("div");
-			msg.id = "errorMsg";
-			msg.innerHTML = "Sorry, browser doesn't support this!"; 
-			document.body.appendChild(msg);
-			$("#code").css("display", "none")
-			$("#copyright").css("position", "absolute");
-			$("#copyright").css("bottom", "10px");
-			document.execCommand("stop");
-		} else {
-			setTimeout(function () {
-				startHeartAnimation();
-			}, 5000);
+    <!-- Navigation -->
+    <nav class="bg-bayern-red text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl">⚽</span> <!-- Unicode Icon fallback -->
+                    <span class="font-bold text-xl tracking-tight">FC Bayern <span class="opacity-80">| 生日特别行动室</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#muller-lab" class="hover:bg-red-800 px-3 py-2 rounded-md text-sm font-medium transition">穆勒的研究</a>
+                        <a href="#squad-wishes" class="hover:bg-red-800 px-3 py-2 rounded-md text-sm font-medium transition">全队祝福</a>
+                        <a href="#party-stats" class="hover:bg-red-800 px-3 py-2 rounded-md text-sm font-medium transition">快乐数据</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-			timeElapse(together);
-			setInterval(function () {
-				timeElapse(together);
-			}, 500);
+    <!-- Hero Section -->
+    <header class="bg-white overflow-hidden relative">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            
+            <!-- Birthday Person Photo Section -->
+            <div class="mb-8 hero-avatar-container">
+                <img 
+                    src="a20090c0451fb9bc6abfd64925a2e35e.jpg" 
+                    alt="唐王瑞雪" 
+                    class="hero-avatar bg-gray-100"
+                    onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Tang+Wang+Ruixue&background=DC052D&color=fff&size=256&font-size=0.33';"
+                >
+                <div class="hero-badge">⭐ 2025 年度 MVP</div>
+            </div>
 
-			adjustCodePosition();
-			$("#code").typewriter();
-		}
-	</script>
+            <p class="text-base font-semibold tracking-wide text-bayern-red uppercase mb-2">行动代号：2025-TWRX</p>
+            <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl mb-6">
+                生日快乐，<span class="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-800">唐王瑞雪！</span>
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+                来自塞贝纳大街的独家问候。托马斯·穆勒已完成战略部署，全队集结完毕，只为庆祝这特别的一天。
+            </p>
+            <div class="mt-8 flex justify-center">
+                <button onclick="triggerConfetti()" class="btn-pulse inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-bayern-red hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
+                    🎉 开启庆祝模式
+                </button>
+            </div>
+        </div>
+        <!-- Background decorative elements (CSS only) -->
+        <div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none overflow-hidden">
+            <div class="absolute -top-24 -left-24 w-96 h-96 bg-red-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+            <div class="absolute top-0 right-0 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
+
+        <!-- SECTION 1: Müller's Lab (The Narrative Hook + AI Feature 1) -->
+        <section id="muller-lab" class="bg-white rounded-2xl shadow-xl overflow-hidden border-t-4 border-bayern-red">
+            <div class="p-8 md:p-12">
+                <div class="flex flex-col md:flex-row gap-8 items-start">
+                    <div class="md:w-1/3 text-center md:text-left">
+                        <div class="inline-block p-4 rounded-full bg-red-100 mb-4">
+                            <span class="text-5xl">📻</span>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">穆勒的战术分析室</h2>
+                        <div class="flex items-center gap-4 bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6 text-left">
+                            <img src="a20090c0451fb9bc6abfd64925a2e35e.jpg" class="target-photo" alt="目标" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Tang+Wang+Ruixue&background=DC052D&color=fff';">
+                            <div>
+                                <p class="text-xs font-bold text-gray-500 uppercase">分析目标</p>
+                                <p class="font-bold text-gray-900">唐王瑞雪 (Tang Wang Ruixue)</p>
+                                <p class="text-xs text-bayern-red mt-1">状态：<span class="animate-pulse">等待快乐充能</span></p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-6">
+                            穆勒为你准备了三套固定战术。但如果这些都不满意，你可以给他一个关键词，让他用 <strong>AI 大脑</strong> 现场即兴发挥！
+                        </p>
+                    </div>
+
+                    <div class="md:w-2/3 bg-gray-50 rounded-xl p-6 w-full">
+                        <!-- Interactive Tabs for Plans -->
+                        <div class="flex space-x-2 mb-6 border-b border-gray-200 pb-2 overflow-x-auto">
+                            <button onclick="switchPlan('planA')" id="btn-planA" class="plan-btn px-4 py-2 font-medium text-gray-500 hover:text-bayern-red focus:outline-none border-b-2 border-transparent transition">方案 A</button>
+                            <button onclick="switchPlan('planB')" id="btn-planB" class="plan-btn px-4 py-2 font-medium text-gray-500 hover:text-bayern-red focus:outline-none border-b-2 border-transparent transition">方案 B</button>
+                            <button onclick="switchPlan('planC')" id="btn-planC" class="plan-btn px-4 py-2 font-medium text-gray-500 hover:text-bayern-red focus:outline-none border-b-2 border-transparent transition">方案 C</button>
+                            <button onclick="switchPlan('aiPlan')" id="btn-aiPlan" class="plan-btn px-4 py-2 font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-purple-600 border-b-2 border-transparent hover:border-red-400 transition">✨ AI 即兴战术</button>
+                        </div>
+
+                        <!-- Content Area -->
+                        <div id="plan-content" class="min-h-[220px]">
+                            <!-- Content injected via JS -->
+                        </div>
+                        
+                        <div class="mt-4 flex justify-between items-center">
+                            <div class="text-xs text-gray-400" id="apiKeyStatus"></div>
+                            <button onclick="likePlan()" class="text-sm text-gray-500 hover:text-red-600 flex items-center gap-1">
+                                <span>❤️</span> <span id="like-count">250</span> 人觉得此方案很赞
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Analytics Dashboard (Data Viz) -->
+        <section id="party-stats">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-900">📊 生日快乐指标分析</h2>
+                <p class="mt-2 text-gray-600 max-w-2xl mx-auto">
+                    不仅仅是祝福，我们运用了先进的数据分析技术（其实就是穆勒手绘的图表）来量化唐王瑞雪今天的快乐指数。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Chart 1: Happiness Trajectory -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex flex-col">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">📈 快乐指数走势图 (xG - Expected Grins)</h3>
+                    <p class="text-sm text-gray-500 mb-4">预测全天心情波动，峰值预计在收到礼物时出现。</p>
+                    <div class="chart-container flex-grow">
+                        <canvas id="happinessChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Composition -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex flex-col">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">🍰 完美生日成分构成</h3>
+                    <p class="text-sm text-gray-500 mb-4">根据拜仁营养师与战术室的联合推荐。</p>
+                    <div class="chart-container flex-grow">
+                        <canvas id="compositionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Squad Wishes (Grid + AI Feature 2) -->
+        <section id="squad-wishes">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-gray-200 pb-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">📝 拜仁全员祝福墙</h2>
+                    <p class="mt-2 text-gray-600">点击普通卡片查看预设语音，或使用 <strong>AI 专属卡片</strong> 获取定制祝福。</p>
+                </div>
+                
+                <!-- Filters -->
+                <div class="flex space-x-2 mt-4 md:mt-0 overflow-x-auto">
+                    <button onclick="filterPlayers('all')" class="filter-btn active-filter px-4 py-1 rounded-full text-sm font-semibold bg-bayern-red text-white transition">全部</button>
+                    <button onclick="filterPlayers('forward')" class="filter-btn px-4 py-1 rounded-full text-sm font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">前锋</button>
+                    <button onclick="filterPlayers('midfield')" class="filter-btn px-4 py-1 rounded-full text-sm font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">中场</button>
+                    <button onclick="filterPlayers('defense')" class="filter-btn px-4 py-1 rounded-full text-sm font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">后防/门将</button>
+                </div>
+            </div>
+
+            <!-- Grid Container -->
+            <div id="players-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- AI Card will be injected here first -->
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-6 md:mb-0">
+                <span class="text-2xl font-bold tracking-wider">MIA SAN MIA</span>
+                <p class="text-gray-400 text-sm mt-2">拜仁慕尼黑球迷俱乐部特别呈现 | AI 祝福由 Gemini 提供支持</p>
+            </div>
+            <div class="text-center md:text-right">
+                <p class="text-gray-400 text-sm">Design by Thomas Müller's Research Team</p>
+                <p class="text-gray-500 text-xs mt-1">© 2025 FC Bayern Fan App. Not official, just full of love.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- GEMINI API CONFIG ---
+        const apiKey = ""; // The execution environment provides the key at runtime.
+        
+        // Helper to get API key if not injected, ask user
+        function getEffectiveApiKey() {
+            if (apiKey) return apiKey;
+            let storedKey = localStorage.getItem("gemini_api_key");
+            if (storedKey) return storedKey;
+            
+            // If running locally without injection, ask user once
+            const userKey = prompt("请输入您的 Gemini API Key 以启用 AI 功能 (密钥将仅保存在您的本地浏览器中):");
+            if (userKey) {
+                localStorage.setItem("gemini_api_key", userKey);
+                return userKey;
+            }
+            return null;
+        }
+
+        async function callGemini(promptText) {
+            const key = getEffectiveApiKey();
+            if (!key) {
+                alert("未配置 API Key，无法使用 AI 功能。");
+                return null;
+            }
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${key}`;
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: promptText }] }]
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            } catch (error) {
+                console.error("Gemini API call failed:", error);
+                alert("AI 连接失败，请稍后重试或检查 API Key。");
+                return null;
+            }
+        }
+
+        // --- DATA STORE ---
+        
+        // 1. Müller's Plans Data
+        const mullerPlans = {
+            planA: {
+                title: "方案 A：严谨的数据化祝福",
+                desc: "我计算了过去10年你的微笑频率。结论是：你需要在今天摄入精确到克的蛋糕，并在晚上20:00准时吹蜡烛，误差不超过5秒。这是最高效的快乐方式。",
+                icon: "📊"
+            },
+            planB: {
+                title: "方案 B：全攻全守式庆祝",
+                desc: "不管那么多！诺伊尔负责守住蛋糕不被偷吃，凯恩负责把礼物精准‘射’进你的怀里，基米希在中场控制BGM的节奏。我们全员压上，确保快乐最大化！",
+                icon: "⚡"
+            },
+            planC: {
+                title: "方案 C：穆勒式惊喜（推荐）",
+                desc: "嘿嘿！我刚刚在你的更衣柜里藏了一匹马（开玩笑的）。真正的计划是：今天你是我们的队长！唐王瑞雪，带上袖标，享受这属于你的一天！Mia San Mia!",
+                icon: "🐴"
+            },
+            aiPlan: {
+                title: "✨ AI 即兴战术：穆勒的灵光一现",
+                desc: "", // Dynamic
+                icon: "🤖"
+            }
+        };
+
+        // 2. Players Data
+        const players = [
+            { 
+                id: 1, 
+                name: "托马斯·穆勒", 
+                role: "midfield", 
+                number: 25, 
+                msg: "嘿！作为领队，我不仅研究了战术，还研究了星座运势。数据显示，今天是你运气最好的一天！生日快乐！", 
+                icon: "😎",
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Thomas_Muller_2018.jpg/200px-Thomas_Muller_2018.jpg"
+            },
+            { 
+                id: 2, 
+                name: "哈里·凯恩", 
+                role: "forward", 
+                number: 9, 
+                msg: "祝你生日快乐，唐王瑞雪。希望你的新一岁像我的进球一样，不仅数量多，而且每一个都精彩绝伦。", 
+                icon: "⚽",
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Harry_Kane_2018.jpg/200px-Harry_Kane_2018.jpg"
+            },
+            { 
+                id: 3, 
+                name: "曼努埃尔·诺伊尔", 
+                role: "defense", 
+                number: 1, 
+                msg: "在后面有我守着，你可以放心大胆地去追求你的梦想。新的一岁，愿所有的烦恼都被我拒之门外。", 
+                icon: "🧤",
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Manuel_Neuer_2018.jpg/200px-Manuel_Neuer_2018.jpg"
+            },
+            { 
+                id: 4, 
+                name: "贾马尔·穆西亚拉", 
+                role: "midfield", 
+                number: 42, 
+                msg: "Happy Birthday! 希望你的每一天都能像盘带过人一样丝滑顺畅。如果不开心，我就给你表演个魔术！", 
+                icon: "🪄",
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Jamal_Musiala_2022.jpg/200px-Jamal_Musiala_2022.jpg"
+            },
+            { 
+                id: 5, 
+                name: "阿方索·戴维斯", 
+                role: "defense", 
+                number: 19, 
+                msg: "Yo Yo! 生日快乐！不管是生活还是球场，都要保持速度，永远冲在最前面！Let's party!", 
+                icon: "⚡",
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Alphonso_Davies_2019.jpg/200px-Alphonso_Davies_2019.jpg"
+            },
+            { 
+                id: 6, 
+                name: "约书亚·基米希", 
+                role: "midfield", 
+                number: 6, 
+                msg: "我已经安排好了今天的日程表，确保每一分钟都充满意义。生日快乐，保持这种必胜的信念！", 
+                icon: "🧠",
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Joshua_Kimmich_2018.jpg/200px-Joshua_Kimmich_2018.jpg"
+            },
+            { 
+                id: 7, 
+                name: "勒鲁瓦·萨内", 
+                role: "forward", 
+                number: 10, 
+                msg: "祝你拥有闪耀的一年，就像边路的突破一样锐利。生日快乐！", 
+                icon: "🚀",
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Leroy_San%C3%A9_2018.jpg/200px-Leroy_San%C3%A9_2018.jpg"
+            },
+            { 
+                id: 8, 
+                name: "金玟哉", 
+                role: "defense", 
+                number: 3, 
+                msg: "生日快乐！我会像防守对方前锋一样，帮你挡住所有的坏心情。祝你健康快乐！", 
+                icon: "🛡️",
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Kim_Min-jae_2023.jpg/200px-Kim_Min-jae_2023.jpg"
+            }
+        ];
+
+        // --- DOM ELEMENTS & STATE ---
+        let currentFilter = 'all';
+        let likeCounter = 250;
+        let aiPlanResult = ""; // Store generated plan
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Init Müller's Plan
+            switchPlan('planC');
+            
+            // Init Player Grid
+            renderPlayers();
+            
+            // Init Charts
+            initCharts();
+        });
+
+        // --- FUNCTIONS ---
+
+        // 1. Müller's Lab Logic (Updated with AI)
+        function switchPlan(planKey) {
+            const contentDiv = document.getElementById('plan-content');
+            if (!contentDiv) return;
+            
+            // Button Styles
+            document.querySelectorAll('.plan-btn').forEach(btn => {
+                if(btn.id === `btn-${planKey}`) {
+                    btn.classList.add('text-bayern-red', 'border-bayern-red', 'font-bold');
+                    btn.classList.remove('text-gray-500', 'border-transparent', 'font-medium');
+                } else {
+                    btn.classList.remove('text-bayern-red', 'border-bayern-red', 'font-bold');
+                    btn.classList.add('text-gray-500', 'border-transparent', 'font-medium');
+                }
+            });
+
+            if (planKey === 'aiPlan') {
+                renderAIPlanInterface(contentDiv);
+            } else {
+                const plan = mullerPlans[planKey];
+                contentDiv.innerHTML = `
+                    <div class="animate-fade-in">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-4xl filter drop-shadow-md">${plan.icon}</span>
+                            <h3 class="text-xl font-bold text-gray-800">${plan.title}</h3>
+                        </div>
+                        <p class="text-gray-600 text-lg leading-relaxed">${plan.desc}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderAIPlanInterface(container) {
+            container.innerHTML = `
+                <div class="animate-fade-in">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-4xl filter drop-shadow-md">🤖</span>
+                        <h3 class="text-xl font-bold text-gray-800">告诉穆勒你想怎么过？</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex gap-2">
+                            <input type="text" id="ai-plan-input" placeholder="输入关键词 (例如: 火锅, 睡大觉, 爬山...)" 
+                                class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 focus:outline-none">
+                            <button onclick="generateMullerPlan()" class="bg-gradient-to-r from-red-600 to-purple-600 text-white px-6 py-2 rounded-lg font-bold hover:opacity-90 transition shadow-md">
+                                ✨ 生成战术
+                            </button>
+                        </div>
+                        <div id="ai-plan-output" class="bg-gray-100 p-4 rounded-lg min-h-[100px] text-gray-600 italic border border-gray-200">
+                            ${aiPlanResult ? aiPlanResult : "穆勒正在等待你的指令..."}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function generateMullerPlan() {
+            const input = document.getElementById('ai-plan-input').value;
+            if (!input) return;
+
+            const outputDiv = document.getElementById('ai-plan-output');
+            outputDiv.innerHTML = `<div class="ai-loading flex items-center gap-2 text-red-600"><span></span><span></span><span></span> 穆勒正在疯狂思考战术...</div>`;
+
+            const prompt = `Act as Thomas Müller from Bayern Munich. Write a funny, detailed, and tactical birthday celebration plan for "Tang Wang Ruixue" based on the theme: "${input}". Use football metaphors, mention teammates, and keep it humorous and energetic. Language: Chinese (Mandarin). Keep it under 100 words.`;
+
+            const result = await callGemini(prompt);
+            
+            if (result) {
+                aiPlanResult = result;
+                // Typewriter effect simulation
+                outputDiv.innerHTML = '';
+                let i = 0;
+                const speed = 30;
+                function typeWriter() {
+                    if (i < result.length) {
+                        outputDiv.innerHTML += result.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, speed);
+                    }
+                }
+                typeWriter();
+            } else {
+                outputDiv.innerHTML = "战术板被诺伊尔踢坏了，请重试...";
+            }
+        }
+
+        // 2. Player Grid Logic (Updated with AI Card)
+        function renderPlayers() {
+            const grid = document.getElementById('players-grid');
+            if(!grid) return;
+            grid.innerHTML = ''; // Clear
+
+            // 1. Add AI Generator Card FIRST (if filter is 'all')
+            if (currentFilter === 'all') {
+                const aiCard = document.createElement('div');
+                aiCard.className = 'bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl shadow-lg border border-gray-700 overflow-hidden card-hover flex flex-col h-full text-white';
+                aiCard.innerHTML = `
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-red-500">✨ 定制你的祝福</h3>
+                                <span class="inline-block mt-1 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wide bg-gray-700 text-gray-300">
+                                    AI POWERED
+                                </span>
+                            </div>
+                            <span class="text-3xl">🎙️</span>
+                        </div>
+                        <div class="space-y-3 mt-2">
+                            <select id="ai-player-select" class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-red-500">
+                                ${players.map(p => `<option value="${p.name}">${p.name}</option>`).join('')}
+                                <option value="文森特·孔帕尼">文森特·孔帕尼 (教练)</option>
+                                <option value="Berni">吉祥物 Berni</option>
+                            </select>
+                            <input type="text" id="ai-wish-context" placeholder="输入当下心情 (如: 加班中, 刚睡醒...)" 
+                                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-red-500">
+                            <button onclick="generatePlayerWish()" class="w-full bg-bayern-red hover:bg-red-700 text-white font-bold py-2 rounded transition shadow-md flex justify-center items-center gap-2">
+                                ✨ 生成专属祝福
+                            </button>
+                        </div>
+                        <div id="ai-wish-result" class="mt-4 text-sm text-gray-300 italic min-h-[60px] border-t border-gray-700 pt-3">
+                            等待连线中...
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(aiCard);
+            }
+
+            const filtered = currentFilter === 'all' 
+                ? players 
+                : players.filter(p => p.role === currentFilter || (currentFilter === 'defense' && (p.role === 'defense' || p.role === 'keeper')));
+
+            filtered.forEach(player => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden card-hover flex flex-col h-full';
+                
+                // Color coding based on role
+                let roleColor = 'bg-gray-100';
+                if(player.role === 'forward') roleColor = 'bg-red-50 text-red-600';
+                if(player.role === 'midfield') roleColor = 'bg-blue-50 text-blue-600';
+                if(player.role === 'defense') roleColor = 'bg-green-50 text-green-600';
+
+                // Fallback avatar URL using UI Avatars service
+                const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(player.name)}&background=DC052D&color=fff&size=128`;
+
+                card.innerHTML = `
+                    <div class="p-6 flex-grow">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center gap-3">
+                                <img 
+                                    src="${player.img}" 
+                                    alt="${player.name}" 
+                                    class="player-avatar bg-gray-200"
+                                    onerror="this.onerror=null; this.src='${fallbackAvatar}';"
+                                >
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-900 leading-tight">${player.name}</h3>
+                                    <span class="inline-block mt-1 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wide ${roleColor}">
+                                        #${player.number}
+                                    </span>
+                                </div>
+                            </div>
+                            <span class="text-2xl opacity-50 filter grayscale">${player.icon}</span>
+                        </div>
+                        <p class="text-gray-600 italic">"${player.msg}"</p>
+                    </div>
+                    <div class="px-6 py-3 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
+                        <span class="text-xs text-gray-400">来自 塞贝纳大街</span>
+                        <button class="text-bayern-red text-sm font-medium hover:underline flex items-center gap-1">
+                            <span>💌</span> 发送回信
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        async function generatePlayerWish() {
+            const player = document.getElementById('ai-player-select').value;
+            const context = document.getElementById('ai-wish-context').value || "过生日";
+            const outputDiv = document.getElementById('ai-wish-result');
+
+            outputDiv.innerHTML = `<div class="ai-loading flex items-center gap-2"><span></span><span></span><span></span> 正在拨通电话...</div>`;
+
+            const prompt = `Act as ${player} from Bayern Munich. Write a short, encouraging birthday message (max 50 words) for a fan named "Tang Wang Ruixue" who is currently: "${context}". Reflect the player's personality (e.g. Muller is funny, Neuer is safe, Kane is professional). Language: Chinese.`;
+
+            const result = await callGemini(prompt);
+
+            if (result) {
+                outputDiv.innerHTML = `"${result}"`;
+                outputDiv.classList.add('animate-fade-in');
+            } else {
+                outputDiv.innerHTML = "信号中断，请重试...";
+            }
+        }
+
+        function filterPlayers(role) {
+            currentFilter = role;
+            
+            // Update UI buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-bayern-red', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            
+            // Highlight active
+            const activeBtn = event.target;
+            if(activeBtn) {
+                activeBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                activeBtn.classList.add('bg-bayern-red', 'text-white');
+            }
+
+            renderPlayers();
+        }
+
+        // 3. Chart.js Logic & Helper Functions (Same as before)
+        function likePlan() {
+            likeCounter++;
+            const counterEl = document.getElementById('like-count');
+            if(counterEl) counterEl.innerText = likeCounter;
+            
+            // Small animation
+            const heart = document.createElement('span');
+            heart.innerText = '❤️';
+            heart.style.position = 'absolute';
+            heart.style.left = event.clientX + 'px';
+            heart.style.top = event.clientY + 'px';
+            heart.style.transition = 'all 1s ease';
+            heart.style.zIndex = '100';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.style.transform = 'translateY(-50px)'; heart.style.opacity = '0'; }, 50);
+            setTimeout(() => heart.remove(), 1000);
+        }
+
+        function initCharts() {
+            // Chart 1: Happiness Trajectory (Line)
+            const canvas1 = document.getElementById('happinessChart');
+            if (canvas1) {
+                const ctx1 = canvas1.getContext('2d');
+                new Chart(ctx1, {
+                    type: 'line',
+                    data: {
+                        labels: ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'],
+                        datasets: [{
+                            label: '快乐指数',
+                            data: [65, 70, 85, 80, 88, 92, 100, 95],
+                            borderColor: '#DC052D',
+                            backgroundColor: 'rgba(220, 5, 45, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: '#fff',
+                            pointBorderColor: '#DC052D',
+                            pointRadius: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: { y: { beginAtZero: true, max: 120, grid: { display: true, color: '#f3f4f6' } }, x: { grid: { display: false } } },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            }
+
+            // Chart 2: Composition (Doughnut)
+            const canvas2 = document.getElementById('compositionChart');
+            if (canvas2) {
+                const ctx2 = canvas2.getContext('2d');
+                new Chart(ctx2, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['美味蛋糕', '拜仁赢球', '好友祝福', '拆礼物', '穆勒的笑话'],
+                        datasets: [{
+                            data: [30, 25, 20, 15, 10],
+                            backgroundColor: ['#DC052D', '#0066B2', '#FFCC00', '#DDDDDD', '#333333'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'right', labels: { font: { size: 12 }, boxWidth: 15 } } }
+                    }
+                });
+            }
+        }
+
+        function triggerConfetti() {
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) { return clearInterval(interval); }
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, colors: ['#DC052D', '#0066B2', '#ffffff'] }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, colors: ['#DC052D', '#0066B2', '#ffffff'] }));
+            }, 250);
+            const lab = document.getElementById('muller-lab');
+            if(lab) lab.scrollIntoView({behavior: 'smooth'});
+        }
+
+        // Add CSS Animation class dynamically
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
+            @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        `;
+        document.head.appendChild(style);
+
+    </script>
 </body>
 </html>
+
